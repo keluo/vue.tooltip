@@ -1,5 +1,7 @@
 <template>
 <div>
+  <br><br><br>
+  <vue-tooltip :content='msg' :placement="bottom">11</vue-tooltip>
 </div>
 </template>
 
@@ -7,6 +9,9 @@
 export default {
   name: 'App',
   data () {
+    return {
+      msg: 'hello'
+    }
   },
   watch: {
   },
