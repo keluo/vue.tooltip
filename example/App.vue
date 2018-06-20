@@ -1,7 +1,7 @@
 <template>
 <div>
   <br><br><br>
-  <vue-tooltip :content='msg' :placement="bottom">11</vue-tooltip>
+  <vue-tooltip :content='msg' effect='light' placement='right'>一段文字</vue-tooltip>
 </div>
 </template>
 
@@ -10,7 +10,7 @@ export default {
   name: 'App',
   data () {
     return {
-      msg: 'hello'
+      msg: 'hello你好'
     }
   },
   watch: {
