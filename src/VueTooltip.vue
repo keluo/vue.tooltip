@@ -9,20 +9,24 @@ export default {
   name: 'vue-tooltip',
   props: {
     placement: {
-			type: String,
-			default: 'bottom'
-		},
-		content: String,
-		trigger: String,
-		effect: {
-			type: String,
-			default: 'dark'
-		}
+		type: String,
+		default: 'bottom'
+	},
+	content: String,
+	trigger: String,
+	effect: {
+		type: String,
+		default: 'dark'
+	},
+	disabled: {
+		type: Boolean,
+		default: false
+	}
   },
   data () {
     return {
       show:false,
-			el:''
+	  el:''
     }
   },
   mounted () {
@@ -34,69 +38,71 @@ export default {
   },
   methods: {
     init() {
-			this.el = this.createTooltipElement();
-			document.body.appendChild(this.el);
+		this.el = this.createTooltipElement();
+		document.body.appendChild(this.el);
     },
     createTooltipElement(options) {
-			// wrapper
-			var popper = document.createElement('div');
-			popper.setAttribute('id', 'tooltip-' + this.randomId());
-			popper.setAttribute('class', 'vue-tooltip');
-			popper.style.visibility = 'hidden';
+		// wrapper
+		var popper = document.createElement('div');
+		popper.setAttribute('id', 'tooltip-' + this.randomId());
+		popper.setAttribute('class', 'vue-tooltip');
+		popper.style.visibility = 'hidden';
 
-			// make arrow
-			var arrow = document.createElement('div');
-			arrow.setAttribute('class', 'vue-tooltip-arrow');
-			popper.appendChild(arrow);
+		// make arrow
+		var arrow = document.createElement('div');
+		arrow.setAttribute('class', 'vue-tooltip-arrow');
+		popper.appendChild(arrow);
 
-			// make content container
-			var content = document.createElement('div');
-			content.setAttribute('class', 'vue-tooltip-content');
-			if(this.effect == 'light'){
-				content.setAttribute('class', 'vue-tooltip-content vue-tooltip-content-light');
-				arrow.setAttribute('class', 'vue-tooltip-arrow vue-tooltip-arrow-light');
-			}
-			content.innerHTML = this.content;
-			popper.appendChild(content);
+		// make content container
+		var content = document.createElement('div');
+		content.setAttribute('class', 'vue-tooltip-content');
+		if(this.effect == 'light'){
+			content.setAttribute('class', 'vue-tooltip-content vue-tooltip-content-light');
+			arrow.setAttribute('class', 'vue-tooltip-arrow vue-tooltip-arrow-light');
+		}
+		content.innerHTML = this.content;
+		popper.appendChild(content);
 
-			return popper;
-		},
-		randomId() {
-			let num = Math.random()*700 + 800;
-      return parseInt(num, 10);
-		},
-		showTooltip(el) {
-			this.show = !this.show;
-			let rect = el.target.getBoundingClientRect()
-			let myStyle = ''
-			switch (this.placement) {
-				case 'top':
-					myStyle += `left:${rect.left}px; `
-					myStyle += `top:${rect.top - this.el.clientHeight - 8}px; `
-					break;
-				case 'left':
-					 myStyle += `left:${rect.x - rect.width - 12}px; `
-					 myStyle += `top:${rect.y - rect.height}px; `
-					break;
-				case 'right':
-					myStyle += `left:${rect.x + rect.width + 8}px; `
-					myStyle += `top:${rect.y - rect.height}px; `
-					break;
-				case 'bottom':
-					myStyle += `left:${rect.left}px; `
-					myStyle += `top:${rect.y + rect.height}px; `
-					break;
-				default:
-					myStyle += `left:${rect.left}px; `
-					myStyle += `top:${rect.y + rect.height}px; `
-					break;
-			}
-			myStyle += `visibility:${this.show? 'visible' : 'hidden'}`
-			this.el.setAttribute('style', myStyle)
-		},
-		hover(event, el) {
+		return popper;
+	},
+	randomId() {
+		let num = Math.random()*700 + 800;
+		return parseInt(num, 10);
+	},
+	showTooltip(el) {
+		this.show = !this.show;
+		let rect = el.target.getBoundingClientRect()
+		let myStyle = ''
+		switch (this.placement) {
+			case 'top':
+				myStyle += `left:${rect.left}px; `
+				myStyle += `top:${rect.top - this.el.clientHeight - 8}px; `
+				break;
+			case 'left':
+				myStyle += `left:${rect.x - rect.width - 12}px; `
+				myStyle += `top:${rect.y - rect.height}px; `
+				break;
+			case 'right':
+				myStyle += `left:${rect.x + rect.width + 8}px; `
+				myStyle += `top:${rect.y - rect.height}px; `
+				break;
+			case 'bottom':
+				myStyle += `left:${rect.left}px; `
+				myStyle += `top:${rect.y + rect.height}px; `
+				break;
+			default:
+				myStyle += `left:${rect.left}px; `
+				myStyle += `top:${rect.y + rect.height}px; `
+				break;
+		}
+		myStyle += `visibility:${this.show? 'visible' : 'hidden'}`
+		this.el.setAttribute('style', myStyle)
+	},
+	hover(event, el) {
+		if(!this.disabled){
 			this.showTooltip(el);
 		}
+	}
   }
 }
 </script>
